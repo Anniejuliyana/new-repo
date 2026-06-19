@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annie Juliyana | Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none}
+a{color:#fff;text-decoration:none;cursor:none}
+::selection{background:rgba(255,255,255,0.2);color:#fff}
+::-webkit-scrollbar{display:none}
+
+#progress-bar{position:fixed;top:0;left:0;height:1px;background:#fff;z-index:9999;width:0%;transition:width 0.1s linear}
+
+#cursor-dot{position:fixed;width:6px;height:6px;background:#fff;border-radius:50%;pointer-events:none;z-index:10001;transform:translate(-50%,-50%);transition:transform 0.05s}
+#cursor-circle{position:fixed;width:40px;height:40px;border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:transform 0.15s ease-out;background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.08)}
+
+#canvas-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+
+.section{position:relative;z-index:1;padding:120px 60px}
+@media(max-width:768px){.section{padding:80px 24px}}
+
+.label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:16px}
+.section-title{font-size:clamp(28px,4vw,42px);font-weight:700;margin-bottom:48px;color:#fff}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="cursor-dot"></div>
+<div id="cursor-circle"></div>
+<div id="canvas-container"></div>
+
+
+<!-- HERO SECTION -->
+<section class="section" id="hero" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start">
+<p class="label hero-anim" style="opacity:0">Data Analyst</p>
+<h1 class="hero-anim" style="font-size:clamp(48px,8vw,96px);font-weight:800;line-height:1.05;opacity:0">Annie<br>Juliyana</h1>
+<p class="hero-anim" style="font-size:clamp(14px,1.5vw,18px);color:rgba(255,255,255,0.5);margin-top:24px;max-width:500px;line-height:1.6;opacity:0">From Databricks pipelines at Fox Corporation to presenting election insights on live television — turning raw data into compelling stories.</p>
+</section>
+
+<!-- SCROLL HINT -->
+<div id="scroll-hint" style="position:fixed;bottom:40px;left:50%;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0.5;transition:opacity 0.5s">
+<span style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase">Scroll to explore</span>
+<svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"><rect x="1" y="1" width="14" height="22" rx="7"/><line x1="8" y1="6" x2="8" y2="10"/></svg>
+</div>
+
+
+<!-- STORY SECTION -->
+<section id="story-panel" style="min-height:250vh;position:relative">
+<div id="story-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;padding:60px">
+<p id="story-text" style="font-size:clamp(20px,3vw,36px);font-weight:500;line-height:1.6;max-width:800px;text-align:center"></p>
+</div>
+</section>
+
+<!-- EXPERIENCE SECTION -->
+<section class="section" id="experience">
+<p class="label">Experience</p>
+<h2 class="section-title">Where I've Worked</h2>
+<div style="display:flex;flex-direction:column;gap:48px">
+<div class="exp-item" style="opacity:0;transform:translateY(40px);border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:40px">
+<p style="font-size:12px;color:rgba(255,255,255,0.3);letter-spacing:1px;margin-bottom:8px">NOV 2025 — MAY 2026</p>
+<h3 style="font-size:22px;font-weight:600;margin-bottom:6px">Political Analyst & Strategist</h3>
+<p style="color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:12px">Agni News, Chennai</p>
+<p style="color:rgba(255,255,255,0.4);font-size:14px;line-height:1.6">Political data analysis and election strategy development for live news coverage.</p>
+</div>
+<div class="exp-item" style="opacity:0;transform:translateY(40px);border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:40px">
+<p style="font-size:12px;color:rgba(255,255,255,0.3);letter-spacing:1px;margin-bottom:8px">NOV 2024 — NOV 2025</p>
+<h3 style="font-size:22px;font-weight:600;margin-bottom:6px">Data Analyst</h3>
+<p style="color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:12px">Fox Corporation, Bangalore</p>
+<p style="color:rgba(255,255,255,0.4);font-size:14px;line-height:1.6">Built end-to-end data pipelines using Databricks, Airflow, EMR, DBT, and Snowflake. Worked with Adobe AEP, Nielsen, FreeWheel, and GAM for audience and ad analytics.</p>
+</div>
+<div class="exp-item" style="opacity:0;transform:translateY(40px);border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:40px">
+<p style="font-size:12px;color:rgba(255,255,255,0.3);letter-spacing:1px;margin-bottom:8px">AUG 2024 — OCT 2024</p>
+<h3 style="font-size:22px;font-weight:600;margin-bottom:6px">Associate Data Analyst</h3>
+<p style="color:rgba(255,255,255,0.5);font-size:14px;margin-bottom:12px">OneData Software Solutions, Coimbatore</p>
+<p style="color:rgba(255,255,255,0.4);font-size:14px;line-height:1.6">Developed interactive dashboards with AWS QuickSight, integrated Amazon Q for intelligent chatbot solutions.</p>
+</div>
+</div>
+</section>
+
+
+<!-- SKILLS SECTION -->
+<section class="section" id="skills">
+<p class="label">Skills</p>
+<h2 class="section-title">Tools & Technologies</h2>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Python</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">SQL</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Databricks</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Snowflake</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">AWS</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Power BI</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Tableau</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">DBT</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Airflow</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Adobe Analytics</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Monte Carlo</span>
+<span class="skill-tag" style="opacity:0;transform:translateY(20px);padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:13px;color:rgba(255,255,255,0.7)">Excel</span>
+</div>
+</section>
+
+
+<!-- PROJECTS SECTION -->
+<section class="section" id="projects">
+<p class="label">Projects</p>
+<h2 class="section-title">Selected Work</h2>
+<div style="display:flex;flex-direction:column;gap:48px">
+<div class="project-item" style="opacity:0;transform:translateY(40px);border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:40px">
+<p style="font-size:12px;color:rgba(255,255,255,0.25);font-weight:600;margin-bottom:8px">01</p>
+<h3 style="font-size:20px;font-weight:600;margin-bottom:8px">FOX Weather / Nation / Outkick Dashboards</h3>
+<p style="color:rgba(255,255,255,0.4);font-size:14px;line-height:1.6;margin-bottom:12px">Built comprehensive analytics dashboards for multiple FOX properties tracking audience engagement and content performance.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Adobe Analytics</span><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Report Builder</span><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Snowflake</span></div>
+</div>
+<div class="project-item" style="opacity:0;transform:translateY(40px);border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:40px">
+<p style="font-size:12px;color:rgba(255,255,255,0.25);font-weight:600;margin-bottom:8px">02</p>
+<h3 style="font-size:20px;font-weight:600;margin-bottom:8px">Custom ChatGPT for FOX News Scorecard</h3>
+<p style="color:rgba(255,255,255,0.4);font-size:14px;line-height:1.6;margin-bottom:12px">Developed a custom AI assistant integrating ChatGPT Pro with Snowflake data for automated scorecard generation and insights.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">ChatGPT Pro</span><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Snowflake</span><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Automation</span></div>
+</div>
+<div class="project-item" style="opacity:0;transform:translateY(40px);border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:40px">
+<p style="font-size:12px;color:rgba(255,255,255,0.25);font-weight:600;margin-bottom:8px">03</p>
+<h3 style="font-size:20px;font-weight:600;margin-bottom:8px">Hospital Analytics — OneCare & Kauvery</h3>
+<p style="color:rgba(255,255,255,0.4);font-size:14px;line-height:1.6;margin-bottom:12px">Created healthcare analytics platforms with interactive dashboards and AI-powered chatbot for patient data insights.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">AWS QuickSight</span><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Power BI</span><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Amazon Q</span></div>
+</div>
+<div class="project-item" style="opacity:0;transform:translateY(40px);border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:40px">
+<p style="font-size:12px;color:rgba(255,255,255,0.25);font-weight:600;margin-bottom:8px">04</p>
+<h3 style="font-size:20px;font-weight:600;margin-bottom:8px">Tamil Nadu Election Analytics</h3>
+<p style="color:rgba(255,255,255,0.4);font-size:14px;line-height:1.6;margin-bottom:12px">Conducted large-scale election data analysis covering 1,01,643 voters, presented findings on live television and press conferences.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Google Sheets</span><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Data Analysis</span><span style="font-size:11px;color:rgba(255,255,255,0.3);padding:4px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:100px">Strategy</span></div>
+</div>
+</div>
+</section>
+
+
+<!-- MEDIA SECTION -->
+<section class="section" id="media">
+<p class="label">Media</p>
+<h2 class="section-title">Press & Coverage</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px">
+<div class="media-card" style="opacity:0;transform:translateY(40px)">
+<img src="images/press-meet.jpg" alt="Press Meet" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:4px;margin-bottom:16px;filter:grayscale(0.2)">
+<h3 style="font-size:16px;font-weight:600;margin-bottom:6px">Sun News Live — Chennai Press Club</h3>
+<p style="color:rgba(255,255,255,0.4);font-size:13px;line-height:1.5">Election Opinion Poll Press Meet</p>
+</div>
+<div class="media-card" style="opacity:0;transform:translateY(40px)">
+<img src="images/newspaper.jpg" alt="Newspaper" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:4px;margin-bottom:16px;filter:grayscale(0.2)">
+<h3 style="font-size:16px;font-weight:600;margin-bottom:6px">Dhina Tamil Newspaper</h3>
+<p style="color:rgba(255,255,255,0.4);font-size:13px;line-height:1.5">Opinion Poll — 1,01,643 Voters</p>
+</div>
+</div>
+</section>
+
+<!-- CERTIFICATIONS SECTION -->
+<section class="section" id="certifications">
+<p class="label">Certifications</p>
+<h2 class="section-title">Credentials</h2>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div class="cert-row" style="opacity:0;transform:translateX(-30px);padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:15px;font-weight:500">CISCO Python Certification</span><span style="font-size:12px;color:rgba(255,255,255,0.3)">CISCO</span>
+</div>
+<div class="cert-row" style="opacity:0;transform:translateX(-30px);padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:15px;font-weight:500">CISCO CCNA</span><span style="font-size:12px;color:rgba(255,255,255,0.3)">CISCO</span>
+</div>
+<div class="cert-row" style="opacity:0;transform:translateX(-30px);padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:15px;font-weight:500">Google Cloud Certification</span><span style="font-size:12px;color:rgba(255,255,255,0.3)">Google</span>
+</div>
+<div class="cert-row" style="opacity:0;transform:translateX(-30px);padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:15px;font-weight:500">ReactJS Certification 2024</span><span style="font-size:12px;color:rgba(255,255,255,0.3)">KGISL</span>
+</div>
+<div class="cert-row" style="opacity:0;transform:translateX(-30px);padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:15px;font-weight:500">OpenAI Custom GPTs</span><span style="font-size:12px;color:rgba(255,255,255,0.3)">OpenAI</span>
+</div>
+<div class="cert-row" style="opacity:0;transform:translateX(-30px);padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:15px;font-weight:500">MCP Agentic AI</span><span style="font-size:12px;color:rgba(255,255,255,0.3)">MCP</span>
+</div>
+</div>
+</section>
+
+
+<!-- CONTACT SECTION -->
+<section class="section" id="contact" style="padding-bottom:160px">
+<p class="label">Contact</p>
+<h2 class="section-title">Let's Connect</h2>
+<div style="display:flex;flex-direction:column;gap:20px">
+<a href="mailto:anniejuliyana007@gmail.com" style="font-size:16px;color:rgba(255,255,255,0.6);transition:color 0.3s">anniejuliyana007@gmail.com</a>
+<a href="tel:+917708331112" style="font-size:16px;color:rgba(255,255,255,0.6);transition:color 0.3s">+91 7708331112</a>
+<a href="https://www.linkedin.com/in/annie-juliyana-72a4a8287/" target="_blank" style="font-size:16px;color:rgba(255,255,255,0.6);transition:color 0.3s">LinkedIn &#8599;</a>
+<a href="https://github.com/Anniejuliyana" target="_blank" style="font-size:16px;color:rgba(255,255,255,0.6);transition:color 0.3s">GitHub &#8599;</a>
+</div>
+</section>
+
+<!-- BOTTOM PILL NAV -->
+<nav id="pill-nav" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);z-index:1000;background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:10px 20px;display:flex;gap:16px;transition:transform 0.4s ease,opacity 0.4s ease;opacity:0">
+<a href="#hero" style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase">Home</a>
+<a href="#experience" style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase">Work</a>
+<a href="#projects" style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase">Projects</a>
+<a href="#media" style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase">Media</a>
+<a href="#contact" style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase">Contact</a>
+</nav>
+
+
+<!-- SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// CURSOR
+const cursorDot = document.getElementById('cursor-dot');
+const cursorCircle = document.getElementById('cursor-circle');
+let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursorDot.style.left = mouseX+'px'; cursorDot.style.top = mouseY+'px'; });
+function animateCursor(){ circleX += (mouseX - circleX)*0.12; circleY += (mouseY - circleY)*0.12; cursorCircle.style.left = circleX+'px'; cursorCircle.style.top = circleY+'px'; requestAnimationFrame(animateCursor); }
+animateCursor();
+
+// PROGRESS BAR
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  progressBar.style.width = scrolled + '%';
+});
+
+// SCROLL HINT HIDE
+const scrollHint = document.getElementById('scroll-hint');
+window.addEventListener('scroll', () => { if(window.scrollY > 200) scrollHint.style.opacity = '0'; else scrollHint.style.opacity = '0.5'; });
+
+// PILL NAV
+const pillNav = document.getElementById('pill-nav');
+window.addEventListener('scroll', () => {
+  if(window.scrollY > window.innerHeight * 0.5){ pillNav.style.transform = 'translateX(-50%) translateY(0)'; pillNav.style.opacity = '1'; }
+  else { pillNav.style.transform = 'translateX(-50%) translateY(80px)'; pillNav.style.opacity = '0'; }
+});
+</script>
+
+
+<script>
+// THREE.JS SCENE
+const canvas = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.z = 30;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+canvas.appendChild(renderer.domElement);
+
+// PHOENIX PARTICLES
+function createPhoenix(){
+  const count = 2000;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  for(let i=0;i<count;i++){
+    const t = i/count;
+    let x,y,z;
+    if(t < 0.1){ // head
+      x = (Math.random()-0.5)*1.2; y = 2 + (Math.random()-0.5)*0.8; z = (Math.random()-0.5)*0.8;
+    } else if(t < 0.35){ // body
+      x = (Math.random()-0.5)*1.5; y = (Math.random()-0.5)*2; z = (Math.random()-0.5)*1;
+    } else if(t < 0.7){ // wings
+      const side = Math.random()>0.5?1:-1;
+      x = side*(1.5+Math.random()*4); y = (Math.random()-0.5)*1.5; z = (Math.random()-0.5)*0.5;
+    } else { // tail
+      x = (Math.random()-0.5)*1; y = -2 - Math.random()*3; z = (Math.random()-0.5)*0.6;
+    }
+    pos[i*3]=x; pos[i*3+1]=y; pos[i*3+2]=z;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.06, transparent: true, opacity: 0.8 });
+  const points = new THREE.Points(geo, mat);
+  points.position.set(-8, 2, 0);
+  scene.add(points);
+  return { points, geo, originalPos: pos.slice() };
+}
+const phoenix = createPhoenix();
+
+// FIRE TRAIL
+function createTrail(){
+  const count = 300;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count*3);
+  const opacities = new Float32Array(count);
+  for(let i=0;i<count;i++){
+    pos[i*3] = phoenix.points.position.x - 2 - Math.random()*5;
+    pos[i*3+1] = phoenix.points.position.y + (Math.random()-0.5)*2;
+    pos[i*3+2] = (Math.random()-0.5)*2;
+    opacities[i] = Math.random()*0.4;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  const mat = new THREE.PointsMaterial({ color: 0x888888, size: 0.04, transparent: true, opacity: 0.3 });
+  const points = new THREE.Points(geo, mat);
+  scene.add(points);
+  return { points, geo, pos };
+}
+const trail = createTrail();
+
+// EMBER SPARKS
+function createEmbers(){
+  const count = 200;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count*3);
+  const vel = new Float32Array(count);
+  for(let i=0;i<count;i++){
+    pos[i*3] = (Math.random()-0.5)*30;
+    pos[i*3+1] = -10 + Math.random()*5;
+    pos[i*3+2] = (Math.random()-0.5)*20;
+    vel[i] = 0.01 + Math.random()*0.03;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  const mat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.03, transparent: true, opacity: 0.5 });
+  const points = new THREE.Points(geo, mat);
+  scene.add(points);
+  return { points, geo, pos, vel };
+}
+const embers = createEmbers();
+</script>
+
+
+<script>
+// SUN
+function createSun(){
+  const sunGroup = new THREE.Group();
+  // wireframe sphere
+  const sphereGeo = new THREE.SphereGeometry(2, 24, 24);
+  const sphereMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.15 });
+  const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+  sunGroup.add(sphere);
+  // glow
+  const glowGeo = new THREE.SphereGeometry(2.3, 16, 16);
+  const glowMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.03 });
+  const glow = new THREE.Mesh(glowGeo, glowMat);
+  sunGroup.add(glow);
+  // corona particles
+  const coronaCount = 500;
+  const coronaGeo = new THREE.BufferGeometry();
+  const coronaPos = new Float32Array(coronaCount*3);
+  for(let i=0;i<coronaCount;i++){
+    const theta = Math.random()*Math.PI*2;
+    const phi = Math.acos(2*Math.random()-1);
+    const r = 2.2 + Math.random()*1.5;
+    coronaPos[i*3] = r*Math.sin(phi)*Math.cos(theta);
+    coronaPos[i*3+1] = r*Math.sin(phi)*Math.sin(theta);
+    coronaPos[i*3+2] = r*Math.cos(phi);
+  }
+  coronaGeo.setAttribute('position', new THREE.BufferAttribute(coronaPos,3));
+  const coronaMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.03, transparent: true, opacity: 0.25 });
+  sunGroup.add(new THREE.Points(coronaGeo, coronaMat));
+  // orbital rings
+  const ring1Geo = new THREE.TorusGeometry(3, 0.01, 8, 64);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.1 });
+  const ring1 = new THREE.Mesh(ring1Geo, ringMat);
+  ring1.rotation.x = Math.PI/3;
+  sunGroup.add(ring1);
+  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3.5, 0.01, 8, 64), ringMat);
+  ring2.rotation.x = -Math.PI/4;
+  ring2.rotation.y = Math.PI/6;
+  sunGroup.add(ring2);
+  sunGroup.position.set(10, 8, -10);
+  scene.add(sunGroup);
+  return sunGroup;
+}
+const sun = createSun();
+
+// BACKGROUND STARS
+function createStars(){
+  const count = 600;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count*3);
+  for(let i=0;i<count;i++){
+    pos[i*3] = (Math.random()-0.5)*100;
+    pos[i*3+1] = (Math.random()-0.5)*100;
+    pos[i*3+2] = -20 - Math.random()*40;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  const mat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.05, transparent: true, opacity: 0.12 });
+  scene.add(new THREE.Points(geo, mat));
+}
+createStars();
+
+// ANIMATION LOOP
+let scrollProgress = 0;
+let targetMouseX = 0, targetMouseY = 0, currentMouseX = 0, currentMouseY = 0;
+document.addEventListener('mousemove', e => {
+  targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+  targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+window.addEventListener('scroll', () => {
+  scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+});
+
+let time = 0;
+function animate(){
+  requestAnimationFrame(animate);
+  time += 0.01;
+  currentMouseX += (targetMouseX - currentMouseX)*0.05;
+  currentMouseY += (targetMouseY - currentMouseY)*0.05;
+  // camera parallax
+  camera.position.x = currentMouseX * 1.5;
+  camera.position.y = currentMouseY * 1;
+  camera.lookAt(0,0,0);
+  // phoenix movement with scroll
+  phoenix.points.position.x = -8 + scrollProgress * 20;
+  phoenix.points.position.y = 2 + Math.sin(time)*0.5;
+  // wing flap
+  const positions = phoenix.geo.attributes.position.array;
+  for(let i=0;i<2000;i++){
+    const t = i/2000;
+    if(t >= 0.35 && t < 0.7){
+      const origY = phoenix.originalPos[i*3+1];
+      const wingX = Math.abs(phoenix.originalPos[i*3]);
+      positions[i*3+1] = origY + Math.sin(time*3) * wingX * 0.15;
+    }
+  }
+  phoenix.geo.attributes.position.needsUpdate = true;
+  // trail update
+  const trailPos = trail.geo.attributes.position.array;
+  for(let i=0;i<300;i++){
+    trailPos[i*3] += -0.02;
+    if(trailPos[i*3] < phoenix.points.position.x - 8){
+      trailPos[i*3] = phoenix.points.position.x - 1;
+      trailPos[i*3+1] = phoenix.points.position.y + (Math.random()-0.5)*1.5;
+      trailPos[i*3+2] = (Math.random()-0.5)*1.5;
+    }
+  }
+  trail.geo.attributes.position.needsUpdate = true;
+  // embers rising
+  const emberPos = embers.geo.attributes.position.array;
+  for(let i=0;i<200;i++){
+    emberPos[i*3+1] += embers.vel[i];
+    if(emberPos[i*3+1] > 15){
+      emberPos[i*3+1] = -10;
+      emberPos[i*3] = (Math.random()-0.5)*30;
+    }
+  }
+  embers.geo.attributes.position.needsUpdate = true;
+  // sun drift
+  sun.position.y = 8 - scrollProgress * 12;
+  sun.rotation.y += 0.002;
+  sun.rotation.z += 0.001;
+  renderer.render(scene, camera);
+}
+animate();
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+
+<script>
+// GSAP ANIMATIONS
+
+// Hero text fade in
+gsap.to('.hero-anim', { opacity: 1, y: 0, duration: 1, stagger: 0.3, delay: 0.5, ease: 'power2.out' });
+
+// Story word-by-word reveal
+const storyContent = "I don't just analyze data — I make it speak. From building end-to-end pipelines at Fox Corporation to presenting election insights on live television, I bring the stories hidden in numbers to life. Every dataset has a narrative. I find it.";
+const storyWords = storyContent.split(' ');
+const storyEl = document.getElementById('story-text');
+storyEl.innerHTML = storyWords.map(w => '<span class="story-word" style="opacity:0.07;transition:opacity 0.3s">' + w + ' </span>').join('');
+
+ScrollTrigger.create({
+  trigger: '#story-panel',
+  start: 'top top',
+  end: 'bottom bottom',
+  onUpdate: (self) => {
+    const progress = self.progress;
+    const words = document.querySelectorAll('.story-word');
+    words.forEach((word, i) => {
+      const wordProgress = i / words.length;
+      if(wordProgress < progress) { word.style.opacity = '1'; word.style.color = '#fff'; }
+      else { word.style.opacity = '0.07'; word.style.color = 'rgba(255,255,255,0.5)'; }
+    });
+  }
+});
+
+// Experience items
+gsap.utils.toArray('.exp-item').forEach((el, i) => {
+  gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+  });
+});
+
+// Skill tags
+gsap.utils.toArray('.skill-tag').forEach((el, i) => {
+  gsap.to(el, { opacity: 1, y: 0, duration: 0.5, delay: i * 0.05, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
+  });
+});
+
+// Project items
+gsap.utils.toArray('.project-item').forEach((el) => {
+  gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+  });
+});
+
+// Media cards
+gsap.utils.toArray('.media-card').forEach((el) => {
+  gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+  });
+});
+
+// Cert rows slide from left
+gsap.utils.toArray('.cert-row').forEach((el, i) => {
+  gsap.to(el, { opacity: 1, x: 0, duration: 0.6, delay: i * 0.08, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
+  });
+});
+</script>
+</body>
+</html>
