@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Annie Juliyana — Immersive Portfolio</title>
+<meta name="description" content="Annie Juliyana | Data Analyst | Fox Corporation">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none}
+a,button{color:inherit;text-decoration:none;cursor:none;border:none;background:none;font:inherit}
+img{display:block;max-width:100%}
+:root{--gold:#d4af37;--gold-light:#f0d060;--orange:#ff6b35;--red:#ff2200;--line:rgba(255,255,255,0.08);--glass:rgba(255,255,255,0.03);--text-sec:rgba(255,255,255,0.7);--text-muted:rgba(255,255,255,0.35)}
+.cursor-glass{position:fixed;width:48px;height:48px;border-radius:50%;pointer-events:none;z-index:9999;background:radial-gradient(circle,rgba(255,255,255,0.12),transparent 70%);backdrop-filter:blur(2px);border:1px solid rgba(255,255,255,0.08);transform:translate(-50%,-50%);transition:width 0.4s,height 0.4s,border-color 0.3s}
+.cursor-glass.hover{width:72px;height:72px;border-color:rgba(212,175,55,0.3)}
+.cursor-dot{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%)}
+.scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--orange),var(--red));z-index:10000;width:0%}
+.scroll-indicator{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:1;transition:opacity 0.6s}
+.scroll-indicator.hide{opacity:0;pointer-events:none}
+.scroll-indicator span{font-size:14px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted)}
+.scroll-indicator .line{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sp 2.5s infinite}
+@keyframes sp{0%,100%{transform:scaleY(1);opacity:0.8}50%{transform:scaleY(0.5);opacity:0.3}}
+#phoenix-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.nav-wrapper{position:fixed;z-index:500;bottom:25px;left:50%;transform:translateX(-50%);opacity:0;transition:opacity 0.5s}
+.nav-wrapper.show{opacity:1}
+.nav-inner{display:flex;padding:6px;background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:60px}
+.nav-inner a{padding:10px 20px;font-size:0.7rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);border-radius:60px;transition:color 0.3s,background 0.3s}
+.nav-inner a:hover{color:var(--gold);background:rgba(212,175,55,0.08)}
+@media(max-width:768px){.nav-inner a{padding:8px 12px;font-size:0.6rem}}
+.panel{position:relative;width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;z-index:10;padding:100px 40px;overflow:hidden}
+@media(max-width:768px){.panel{padding:80px 20px}}
+.panel-inner{max-width:1200px;width:100%;margin:0 auto}
+.gradient-1{position:absolute;width:100%;height:100%;top:0;left:0;background:radial-gradient(ellipse at 20% 50%,rgba(212,175,55,0.04),transparent 60%);pointer-events:none}
+.gradient-2{position:absolute;width:100%;height:100%;top:0;left:0;background:radial-gradient(ellipse at 80% 50%,rgba(255,107,53,0.03),transparent 60%);pointer-events:none}
+.hero-greeting{font-size:0.85rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);opacity:0;margin-bottom:2rem}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,10vw,10rem);font-weight:900;line-height:0.95;letter-spacing:-0.03em;opacity:0}
+.hero-name .gold{background:linear-gradient(135deg,var(--gold),var(--gold-light),var(--orange));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-tagline{font-size:clamp(1rem,2vw,1.4rem);color:var(--text-sec);max-width:650px;margin:2.5rem auto 0;line-height:1.8;opacity:0;font-weight:300}
+.hero-scroll-hint{margin-top:4rem;opacity:0}.hero-scroll-hint span{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted)}
+.story-panel{min-height:200vh}
+.story-text{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3.5rem);font-weight:400;line-height:1.7;text-align:center;max-width:1000px;margin:0 auto;position:sticky;top:50%;transform:translateY(-50%)}
+.story-text .word{display:inline-block;opacity:0.08;transition:opacity 0.5s,color 0.5s;margin-right:0.25em}
+.story-text .word.active{opacity:1;color:var(--gold)}
+.story-text .word.past{opacity:0.6;color:#fff}
+.section-label{font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';width:40px;height:1px;background:var(--gold)}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:800;margin-bottom:4rem;line-height:1.1}
+.section-title .gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.exp-card{background:var(--glass);border:1px solid var(--line);border-radius:20px;padding:3rem;margin-bottom:2rem;opacity:0;transform:translateY(80px);transition:border-color 0.4s,background 0.4s}
+.exp-card:hover{border-color:rgba(212,175,55,0.3);background:rgba(212,175,55,0.02)}
+.exp-date{font-size:0.7rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1rem;font-weight:600}
+.exp-role{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:0.4rem}
+.exp-company{font-size:0.9rem;color:var(--orange);font-weight:600;margin-bottom:1.25rem}
+.exp-desc{font-size:0.9rem;color:var(--text-muted);line-height:1.9;font-weight:300}
+.skills-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:900px;margin:0 auto}
+.skill-pill{padding:12px 24px;border:1px solid var(--line);border-radius:60px;font-size:0.8rem;font-weight:500;opacity:0;transform:scale(0.7) translateY(20px);transition:border-color 0.3s,background 0.3s,transform 0.3s}
+.skill-pill:hover{border-color:var(--gold);background:rgba(212,175,55,0.08);transform:scale(1.08) translateY(-3px)!important}
+.skill-pill .icon{margin-right:6px}
+.project-item{display:grid;grid-template-columns:1fr;gap:2.5rem;margin-bottom:4rem;opacity:0;transform:translateY(100px);padding:3rem;border:1px solid var(--line);border-radius:24px;background:var(--glass);transition:border-color 0.4s}
+@media(min-width:768px){.project-item{grid-template-columns:80px 1fr;gap:3rem}}
+.project-item:hover{border-color:rgba(212,175,55,0.3)}
+.project-num{font-family:'Playfair Display',serif;font-size:4.5rem;font-weight:900;background:linear-gradient(180deg,var(--gold),rgba(212,175,55,0.1));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.project-content h3{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:0.4rem}
+.project-content .project-meta{font-size:0.7rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.25rem;font-weight:600}
+.project-content p{font-size:0.9rem;color:var(--text-muted);line-height:1.9;margin-bottom:1.5rem;font-weight:300}
+.project-tags{display:flex;flex-wrap:wrap;gap:8px}
+.project-tag{padding:6px 14px;border:1px solid var(--line);border-radius:60px;font-size:0.65rem;color:var(--text-sec)}
+.media-grid{display:grid;grid-template-columns:1fr;gap:2rem}
+@media(min-width:768px){.media-grid{grid-template-columns:repeat(2,1fr)}}
+.media-card{background:var(--glass);border:1px solid var(--line);border-radius:20px;overflow:hidden;opacity:0;transform:translateY(80px);transition:border-color 0.4s,transform 0.3s}
+.media-card:hover{border-color:rgba(212,175,55,0.3);transform:translateY(-8px)!important}
+.media-card-img{width:100%;height:280px;overflow:hidden}
+.media-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s}
+.media-card:hover .media-card-img img{transform:scale(1.08)}
+.media-card-body{padding:2rem}
+.media-card-source{font-size:0.65rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;font-weight:600}
+.media-card-body h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:0.6rem}
+.media-card-body p{font-size:0.85rem;color:var(--text-muted);line-height:1.8;font-weight:300}
+.certs-grid{display:grid;grid-template-columns:1fr;gap:12px;max-width:800px;margin:0 auto}
+@media(min-width:768px){.certs-grid{grid-template-columns:repeat(2,1fr)}}
+.cert-item{display:flex;align-items:center;gap:16px;padding:18px 24px;border:1px solid var(--line);border-radius:14px;opacity:0;transform:translateX(-40px);transition:border-color 0.3s,transform 0.3s}
+.cert-item:hover{border-color:rgba(212,175,55,0.3);transform:translateX(5px)!important}
+.cert-icon{font-size:1.5rem}
+.cert-name{font-size:0.85rem;font-weight:500}
+.contact-links{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:5rem}
+.contact-link{display:flex;align-items:center;gap:8px;padding:14px 28px;border:1px solid var(--line);border-radius:60px;font-size:0.8rem;color:var(--text-sec);transition:all 0.4s}
+.contact-link:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-4px)}
+.footer-copy{font-size:0.65rem;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase}
+.tc{text-align:center}
+</style>
+
+<div class="cursor-glass"></div>
+<div class="cursor-dot"></div>
+<div class="scroll-progress"></div>
+<div class="scroll-indicator"><span>Scroll to explore</span><div class="line"></div></div>
+<canvas id="phoenix-canvas"></canvas>
+<nav class="nav-wrapper"><div class="nav-inner"><a href="#hero">Home</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#media">Press</a><a href="#contact">Contact</a></div></nav>
+
+<section class="panel" id="hero" style="text-align:center">
+<div class="gradient-1"></div><div class="gradient-2"></div>
+<div class="panel-inner" style="position:relative;z-index:10;text-align:center">
+<p class="hero-greeting">Data Analyst & Storyteller</p>
+<h1 class="hero-name">Annie<br><span class="gold">Juliyana</span></h1>
+<p class="hero-tagline">From Databricks pipelines to front-page press coverage — I transform raw data into decisions that matter.</p>
+<div class="hero-scroll-hint"><span>&#8595; Scroll to explore my story</span></div>
+</div></section>
+
+<section class="panel story-panel" id="story"><div class="panel-inner">
+<p class="story-text" id="story-text">I don't just analyze data — I make it speak. From building end-to-end pipelines at Fox Corporation to presenting election insights on live television, I bring the stories hidden in numbers to life. Every dataset has a narrative. I find it.</p>
+</div></section>
+
+<section class="panel" id="experience"><div class="gradient-1"></div>
+<div class="panel-inner" style="position:relative;z-index:10">
+<p class="section-label">Career Journey</p>
+<h2 class="section-title">Exper<span class="gold">ience</span></h2>
+<div class="exp-card"><div class="exp-date">Nov 2025 — May 2026</div><h3 class="exp-role">Political Analyst & Strategist</h3><div class="exp-company">Agni News and Services • Chennai</div><p class="exp-desc">Constituency-wise political analysis, exit polls & strategic reports for Tamil Nadu elections. Collaborated with Deputy Chief Minister on data-driven campaign insights.</p></div>
+<div class="exp-card"><div class="exp-date">Nov 2024 — Nov 2025</div><h3 class="exp-role">Data Analyst</h3><div class="exp-company">Fox Corporation (FOX 21st Century Studios) • Bangalore</div><p class="exp-desc">Managed AdTech, Engagement & Ratings data domains. Built end-to-end pipelines using Databricks, Airflow, EMR, DBT, Snowflake. Executed Adobe AEP projects, partnered with Nielsen, FreeWheel & GAM.</p></div>
+<div class="exp-card"><div class="exp-date">Aug 2024 — Oct 2024</div><h3 class="exp-role">Associate Data Analyst</h3><div class="exp-company">OneData Software Solutions • Coimbatore</div><p class="exp-desc">Developed 3 interactive hospital dashboard templates using AWS QuickSight & Amazon Q. Built a chatbot for automated patient registration.</p></div>
+</div></section>
+
+<section class="panel" id="skills"><div class="gradient-2"></div>
+<div class="panel-inner tc" style="position:relative;z-index:10">
+<p class="section-label" style="justify-content:center">Arsenal</p>
+<h2 class="section-title" style="text-align:center">My <span class="gold">Skills</span></h2>
+<div class="skills-grid">
+<div class="skill-pill"><span class="icon">🐍</span>Python</div><div class="skill-pill"><span class="icon">🗄️</span>SQL</div><div class="skill-pill"><span class="icon">🧱</span>Databricks</div><div class="skill-pill"><span class="icon">❄️</span>Snowflake</div><div class="skill-pill"><span class="icon">☁️</span>AWS</div><div class="skill-pill"><span class="icon">📊</span>Power BI</div><div class="skill-pill"><span class="icon">📈</span>Tableau</div><div class="skill-pill"><span class="icon">🔄</span>DBT</div><div class="skill-pill"><span class="icon">🌀</span>Airflow</div><div class="skill-pill"><span class="icon">🎯</span>Adobe Analytics</div><div class="skill-pill"><span class="icon">🔍</span>Monte Carlo</div><div class="skill-pill"><span class="icon">📋</span>MS Excel</div>
+</div></div></section>
+
+<section class="panel" id="projects"><div class="gradient-1"></div>
+<div class="panel-inner" style="position:relative;z-index:10">
+<p class="section-label">Portfolio</p>
+<h2 class="section-title">Featured <span class="gold">Projects</span></h2>
+<div class="project-item"><div class="project-num">01</div><div class="project-content"><div class="project-meta">FOX Corporation • 2025</div><h3>FOX Weather, Nation & Outkick Dashboards</h3><p>Built replica dashboards using Adobe Report Builder for data validation within Snowflake reporting environments.</p><div class="project-tags"><span class="project-tag">Adobe Analytics</span><span class="project-tag">Report Builder</span><span class="project-tag">Snowflake</span></div></div></div>
+<div class="project-item"><div class="project-num">02</div><div class="project-content"><div class="project-meta">FOX Corporation • 2025</div><h3>Custom ChatGPT for FOX News Scorecard</h3><p>Built a custom ChatGPT bot integrated with Snowflake, Confluence & Box — automating queries and knowledge sharing.</p><div class="project-tags"><span class="project-tag">ChatGPT Pro</span><span class="project-tag">Snowflake</span><span class="project-tag">Automation</span></div></div></div>
+<div class="project-item"><div class="project-num">03</div><div class="project-content"><div class="project-meta">OneData Solutions • 2024</div><h3>Hospital Analytics — OneCare & Kauvery</h3><p>Developed 3 interactive dashboard templates using AWS QuickSight & Power BI with Amazon Q and patient chatbot.</p><div class="project-tags"><span class="project-tag">AWS QuickSight</span><span class="project-tag">Power BI</span><span class="project-tag">Amazon Q</span></div></div></div>
+<div class="project-item"><div class="project-num">04</div><div class="project-content"><div class="project-meta">Agni News • 2026</div><h3>Tamil Nadu Election Analytics</h3><p>Constituency-wise political analysis, opinion & exit poll analytics for campaign planning.</p><div class="project-tags"><span class="project-tag">Google Sheets</span><span class="project-tag">Data Analysis</span><span class="project-tag">Strategy</span></div></div></div>
+</div></section>
+
+<section class="panel" id="media"><div class="gradient-2"></div>
+<div class="panel-inner" style="position:relative;z-index:10">
+<p class="section-label" style="justify-content:center">In the News</p>
+<h2 class="section-title tc">Media & <span class="gold">Press</span></h2>
+<div class="media-grid">
+<div class="media-card"><div class="media-card-img"><img src="images/press-meet.jpg" alt="Press Club"></div><div class="media-card-body"><div class="media-card-source">Sun News Live • Chennai Press Club</div><h3>Tamil Nadu Election Opinion Poll Press Meet</h3><p>Presented election opinion poll findings, covered live by Sun News, ANI & multiple Tamil media outlets.</p></div></div>
+<div class="media-card"><div class="media-card-img"><img src="images/newspaper.jpg" alt="Newspaper"></div><div class="media-card-body"><div class="media-card-source">Dhina Tamil • Newspaper Feature</div><h3>Opinion Poll — 1,01,643 Voters Surveyed</h3><p>Featured for comprehensive constituency-wise opinion poll covering over 1 lakh voters across Tamil Nadu.</p></div></div>
+</div></div></section>
+
+<section class="panel" id="certs"><div class="panel-inner">
+<p class="section-label" style="justify-content:center">Achievements</p>
+<h2 class="section-title tc">Certifi<span class="gold">cations</span></h2>
+<div class="certs-grid">
+<div class="cert-item"><span class="cert-icon">🐍</span><span class="cert-name">CISCO Certified — Python Programming</span></div>
+<div class="cert-item"><span class="cert-icon">🌐</span><span class="cert-name">CISCO CCNA — Networking Academy</span></div>
+<div class="cert-item"><span class="cert-icon">☁️</span><span class="cert-name">Google Cloud Computing Certificate</span></div>
+<div class="cert-item"><span class="cert-icon">⚛️</span><span class="cert-name">ReactJS Web Application — KGISL 2024</span></div>
+<div class="cert-item"><span class="cert-icon">🤖</span><span class="cert-name">OpenAI — Creating Custom GPTs</span></div>
+<div class="cert-item"><span class="cert-icon">🧠</span><span class="cert-name">MCP Hands-On with Agentic AI</span></div>
+</div></div></section>
+
+<section class="panel" id="contact"><div class="gradient-1"></div>
+<div class="panel-inner tc" style="position:relative;z-index:10">
+<p class="section-label" style="justify-content:center">Let's Connect</p>
+<h2 class="section-title">Get In <span class="gold">Touch</span></h2>
+<p style="font-size:1.1rem;color:var(--text-sec);margin-bottom:3.5rem;max-width:550px;margin-left:auto;margin-right:auto;line-height:1.8;font-weight:300">Open to data analyst roles, freelance projects, and collaborations.</p>
+<div class="contact-links">
+<a href="mailto:anniejuliyana007@gmail.com" class="contact-link">📧 anniejuliyana007@gmail.com</a>
+<a href="tel:+917708331112" class="contact-link">📞 +91 7708331112</a>
+<a href="https://www.linkedin.com/in/annie-juliyana-72a4a8287/" target="_blank" class="contact-link">🔗 LinkedIn</a>
+<a href="https://github.com/Anniejuliyana" target="_blank" class="contact-link">💻 GitHub</a>
+</div>
+<p class="footer-copy">© 2026 Annie Juliyana. Crafted with passion & data.</p>
+</div></section>
+
+<script>
+// CURSOR
+const cg=document.querySelector('.cursor-glass'),cd2=document.querySelector('.cursor-dot');
+let mx=0,my=0,gx=0,gy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd2.style.left=mx+'px';cd2.style.top=my+'px'});
+function ac(){gx+=(mx-gx)*0.12;gy+=(my-gy)*0.12;cg.style.left=gx+'px';cg.style.top=gy+'px';requestAnimationFrame(ac)}ac();
+document.querySelectorAll('a,button,.exp-card,.project-item,.media-card,.skill-pill,.cert-item,.contact-link').forEach(el=>{el.addEventListener('mouseenter',()=>cg.classList.add('hover'));el.addEventListener('mouseleave',()=>cg.classList.remove('hover'))});
+if('ontouchstart' in window){cg.style.display='none';cd2.style.display='none';document.body.style.cursor='auto'}
+const pb=document.querySelector('.scroll-progress'),si=document.querySelector('.scroll-indicator'),nw=document.querySelector('.nav-wrapper');
+window.addEventListener('scroll',()=>{const s=window.scrollY/(document.body.scrollHeight-window.innerHeight);pb.style.width=(s*100)+'%';if(window.scrollY>300){si.classList.add('hide');nw.classList.add('show')}else{si.classList.remove('hide');nw.classList.remove('show')}});
+</script>
+<script>
+// THREE.JS
+const canvas=document.getElementById('phoenix-canvas'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,0.1,1000),renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));camera.position.set(0,0,8);
+// SUN
+const sunG=new THREE.Group();scene.add(sunG);
+sunG.add(new THREE.Mesh(new THREE.SphereGeometry(1.5,64,64),new THREE.MeshBasicMaterial({color:0xd4af37,transparent:true,opacity:0.15})));
+const sw=new THREE.Mesh(new THREE.SphereGeometry(1.55,40,40),new THREE.MeshBasicMaterial({color:0xf0d060,wireframe:true,transparent:true,opacity:0.25}));sunG.add(sw);
+const sg=new THREE.Mesh(new THREE.SphereGeometry(2,32,32),new THREE.MeshBasicMaterial({color:0xf0d060,transparent:true,opacity:0.04}));sunG.add(sg);
+const cN=600,cG2=new THREE.BufferGeometry(),cP=new Float32Array(cN*3);
+for(let i=0;i<cN;i++){const a=Math.random()*Math.PI*2,r=1.6+Math.random()*1.8;cP[i*3]=Math.cos(a)*r;cP[i*3+1]=Math.sin(a)*r;cP[i*3+2]=(Math.random()-0.5)*0.8}
+cG2.setAttribute('position',new THREE.BufferAttribute(cP,3));
+const cor=new THREE.Points(cG2,new THREE.PointsMaterial({color:0xf0d060,size:0.035,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending}));sunG.add(cor);
+for(let r=0;r<3;r++){const rg=new THREE.Mesh(new THREE.RingGeometry(1.8+r*0.5,1.85+r*0.5,80),new THREE.MeshBasicMaterial({color:0xd4af37,transparent:true,opacity:0.06-r*0.015,side:THREE.DoubleSide}));rg.rotation.x=Math.random()*0.3;sunG.add(rg)}
+sunG.position.set(3.5,2.5,-4);
+// PHOENIX
+const pG=new THREE.Group();scene.add(pG);
+const pN=2000,pGeo=new THREE.BufferGeometry(),pp=new Float32Array(pN*3),pc=new Float32Array(pN*3);
+for(let i=0;i<pN;i++){const t=i/pN;let x,y,z;
+if(t<0.15){x=1.5+(Math.random()-0.5)*0.15;y=0.3+(Math.random()-0.5)*0.15;z=(Math.random()-0.5)*0.1}
+else if(t<0.35){const s=(t-0.15)/0.2;x=1.5-s*2;y=0.3-s*0.2+(Math.random()-0.5)*0.2;z=(Math.random()-0.5)*0.15}
+else if(t<0.55){const s=(t-0.35)/0.2,w=s*2.5;x=0.5-s*0.8+(Math.random()-0.5)*0.15;y=0.2+w*Math.sin(s*Math.PI*0.7)+(Math.random()-0.5)*0.1;z=-0.3-w*0.4+(Math.random()-0.5)*0.1}
+else if(t<0.75){const s=(t-0.55)/0.2,w=s*2.5;x=0.5-s*0.8+(Math.random()-0.5)*0.15;y=0.2+w*Math.sin(s*Math.PI*0.7)+(Math.random()-0.5)*0.1;z=0.3+w*0.4+(Math.random()-0.5)*0.1}
+else{const s=(t-0.75)/0.25;x=-0.5-s*3+(Math.random()-0.5)*0.2;y=0.1-s*0.8+Math.sin(s*4)*0.2+(Math.random()-0.5)*0.3;z=(Math.random()-0.5)*(0.3+s*0.6)}
+pp[i*3]=x;pp[i*3+1]=y;pp[i*3+2]=z;
+const cm=Math.random();
+if(t<0.35){pc[i*3]=1;pc[i*3+1]=0.85+cm*0.15;pc[i*3+2]=0.2+cm*0.3}
+else if(t<0.75){pc[i*3]=1;pc[i*3+1]=0.4+cm*0.4;pc[i*3+2]=0}
+else{pc[i*3]=1;pc[i*3+1]=0.1+cm*0.25;pc[i*3+2]=0}}
+pGeo.setAttribute('position',new THREE.BufferAttribute(pp,3));pGeo.setAttribute('color',new THREE.BufferAttribute(pc,3));
+const pb2=new THREE.Points(pGeo,new THREE.PointsMaterial({size:0.04,vertexColors:true,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending}));pG.add(pb2);
+// TRAIL
+const tN=500,tGeo=new THREE.BufferGeometry(),tp=new Float32Array(tN*3),tc=new Float32Array(tN*3);
+for(let i=0;i<tN;i++){const s=i/tN;tp[i*3]=-0.5-s*4+(Math.random()-0.5)*0.5;tp[i*3+1]=0.1-s*0.5+(Math.random()-0.5)*0.6;tp[i*3+2]=(Math.random()-0.5)*0.5;tc[i*3]=1-s*0.3;tc[i*3+1]=0.3-s*0.3;tc[i*3+2]=0}
+tGeo.setAttribute('position',new THREE.BufferAttribute(tp,3));tGeo.setAttribute('color',new THREE.BufferAttribute(tc,3));
+const ft=new THREE.Points(tGeo,new THREE.PointsMaterial({size:0.03,vertexColors:true,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending}));pG.add(ft);
+// EMBERS
+const eN=300,eGeo=new THREE.BufferGeometry(),ep=new Float32Array(eN*3),ev=new Float32Array(eN*3);
+for(let i=0;i<eN;i++){ep[i*3]=(Math.random()-0.5)*4-1;ep[i*3+1]=(Math.random()-0.5)*2;ep[i*3+2]=(Math.random()-0.5)*1.5;ev[i*3]=(Math.random()-0.5)*0.01;ev[i*3+1]=Math.random()*0.02+0.005;ev[i*3+2]=(Math.random()-0.5)*0.01}
+eGeo.setAttribute('position',new THREE.BufferAttribute(ep,3));
+const em=new THREE.Points(eGeo,new THREE.PointsMaterial({color:0xff6b35,size:0.02,transparent:true,opacity:0.6,blending:THREE.AdditiveBlending}));pG.add(em);
+pG.position.set(-2.5,-1,-2);pG.scale.set(1.4,1.4,1.4);
+// STARS
+const sN=800,sGeo=new THREE.BufferGeometry(),sp2=new Float32Array(sN*3);
+for(let i=0;i<sN;i++){sp2[i*3]=(Math.random()-0.5)*30;sp2[i*3+1]=(Math.random()-0.5)*30;sp2[i*3+2]=(Math.random()-0.5)*15-8}
+sGeo.setAttribute('position',new THREE.BufferAttribute(sp2,3));
+const stars=new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xd4af37,size:0.012,transparent:true,opacity:0.25}));scene.add(stars);
+// ANIMATE
+let scrollProg=0;const clock=new THREE.Clock();
+window.addEventListener('scroll',()=>{scrollProg=window.scrollY/(document.body.scrollHeight-innerHeight)});
+function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();
+sw.rotation.y-=0.004;sw.rotation.x+=0.001;cor.rotation.z+=0.002;
+sg.scale.setScalar(1+Math.sin(t*0.5)*0.05);
+sunG.position.y=2.5-scrollProg*5;sunG.position.x=3.5-scrollProg*2;
+const pos=pb2.geometry.attributes.position.array;
+for(let i=0;i<pN;i++){const tt=i/pN;if(tt>=0.35&&tt<0.75){pos[i*3+1]+=Math.sin(t*2.5+tt*3)*0.0003}}
+pb2.geometry.attributes.position.needsUpdate=true;
+pG.position.x=-2.5+scrollProg*6;pG.position.y=-1+Math.sin(t*0.6)*0.3+scrollProg*2;pG.rotation.z=Math.sin(t*0.4)*0.06;pG.rotation.y=scrollProg*0.5;
+const tpos=ft.geometry.attributes.position.array;
+for(let i=0;i<tN;i++){tpos[i*3+1]+=Math.sin(t*3+i*0.1)*0.002}ft.geometry.attributes.position.needsUpdate=true;
+const epos=em.geometry.attributes.position.array;
+for(let i=0;i<eN;i++){epos[i*3]+=ev[i*3];epos[i*3+1]+=ev[i*3+1];epos[i*3+2]+=ev[i*3+2];if(epos[i*3+1]>2.5){epos[i*3]=(Math.random()-0.5)*4-1;epos[i*3+1]=-1.5;epos[i*3+2]=(Math.random()-0.5)*1.5}}
+em.geometry.attributes.position.needsUpdate=true;stars.rotation.y+=0.0001;
+camera.position.x+=((mx/innerWidth-0.5)*0.8-camera.position.x)*0.02;
+camera.position.y+=((-(my/innerHeight-0.5)*0.5)-camera.position.y)*0.02;
+camera.lookAt(0,0,0);renderer.render(scene,camera)}animate();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.to('.hero-greeting',{opacity:1,duration:1.2,delay:0.3});gsap.to('.hero-name',{opacity:1,duration:1.5,delay:0.6});gsap.to('.hero-tagline',{opacity:1,duration:1.2,delay:1});gsap.to('.hero-scroll-hint',{opacity:1,duration:1,delay:1.5});
+const stE=document.getElementById('story-text'),stW=stE.textContent.trim().split(/\s+/);
+stE.innerHTML=stW.map(w=>'<span class="word">'+w+'</span>').join('');
+const wE=stE.querySelectorAll('.word');
+ScrollTrigger.create({trigger:'.story-panel',start:'top top',end:'bottom bottom',onUpdate:s=>{const p=s.progress,a=Math.floor(p*wE.length);wE.forEach((w,i)=>{w.classList.remove('active','past');if(i<a)w.classList.add('past');else if(i===a)w.classList.add('active')})}});
+gsap.utils.toArray('.exp-card').forEach((c,i)=>{gsap.to(c,{opacity:1,y:0,duration:1,delay:i*0.2,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 85%'}})});
+gsap.utils.toArray('.skill-pill').forEach((p,i)=>{gsap.to(p,{opacity:1,scale:1,y:0,duration:0.6,delay:i*0.04,ease:'back.out(1.5)',scrollTrigger:{trigger:'.skills-grid',start:'top 80%'}})});
+gsap.utils.toArray('.project-item').forEach((it,i)=>{gsap.to(it,{opacity:1,y:0,duration:1.1,delay:i*0.2,ease:'power3.out',scrollTrigger:{trigger:it,start:'top 85%'}})});
+gsap.utils.toArray('.media-card').forEach((c,i)=>{gsap.to(c,{opacity:1,y:0,duration:1,delay:i*0.2,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 85%'}})});
+gsap.utils.toArray('.cert-item').forEach((it,i)=>{gsap.to(it,{opacity:1,x:0,duration:0.7,delay:i*0.08,ease:'power2.out',scrollTrigger:{trigger:'.certs-grid',start:'top 80%'}})});
+gsap.utils.toArray('.section-title').forEach(t=>{gsap.from(t,{opacity:0,y:50,duration:1.2,ease:'power3.out',scrollTrigger:{trigger:t,start:'top 85%'}})});
+gsap.utils.toArray('.section-label').forEach(l=>{gsap.from(l,{opacity:0,x:-30,duration:0.8,scrollTrigger:{trigger:l,start:'top 88%'}})});
+</script>
+</body>
+</html>
+
+
